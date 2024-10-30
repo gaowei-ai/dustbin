@@ -1,0 +1,137 @@
+{
+	"name": "dustbin",
+	"displayName": "dustbin(临时新建文件)",
+	"description": "垃圾箱，用来临时存储文件，方便在当前窗口随便新建文件，无需新建窗口",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.94.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"keywords": [
+		"drafts",
+		"dustbin",
+		"scratch",
+		"note",
+		"临时存储",
+		"垃圾箱",
+		"草稿箱",
+		"临时"
+	],
+	"publisher": "gaowei-ai",
+	"repository": {
+		"url": "https://github.com/gaowei-ai/dustbin"
+	},
+	"icon": "/resource/images/dustbin.png",
+	"activationEvents": [],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "dustbin.showFileTree",
+				"title": "选择文件夹"
+			},
+			{
+				"command": "dustbin.createFile",
+				"title": "新建文件",
+				"icon": "resource/images/addFile.svg"
+			},
+			{
+				"command": "dustbin.createFolder",
+				"title": "新建文件夹",
+				"icon": "resource/images/addFolder.svg"
+			},
+			{
+				"command": "dustbin.delete",
+				"title": "删除"
+			},
+			{
+				"command": "dustbin.rename",
+				"title": "重命名"
+			},
+			{
+				"command": "dustbin.refesh",
+				"title": "刷新",
+				"icon": "resource/images/refresh.svg"
+			}
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "dustbin-container",
+					"title": "垃圾箱(Dustbin)",
+					"icon": "resource/images/dustbin.svg"
+				}
+			]
+		},
+		"views": {
+			"dustbin-container": [
+				{
+					"id": "dustbin-local",
+					"name": "当前目录"
+				}
+			]
+		},
+		"viewsWelcome": [
+			{
+				"view": "dustbin-local",
+				"contents": "请选择垃圾箱\n[选择文件夹](command:dustbin.showFileTree)"
+			}
+		],
+		"menus": {
+			"view/title": [
+				{
+					"command": "dustbin.showFileTree",
+					"when": "view == dustbin-local"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "dustbin.createFile",
+					"when": "view == dustbin-local && (viewItem == folder || viewItem==root)",
+					"group": "inline"
+				},
+				{
+					"command": "dustbin.createFolder",
+					"when": "view == dustbin-local && (viewItem == folder || viewItem==root)",
+					"group": "inline"
+				},
+				{
+					"command": "dustbin.delete",
+					"when": "view == dustbin-local && viewItem !== root"
+				},
+				{
+					"command": "dustbin.rename",
+					"when": "view == dustbin-local && viewItem !== root"
+				},
+				{
+					"command": "dustbin.refesh",
+					"when": "view == dustbin-local && viewItem == root",
+					"group": "inline"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "pnpm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "pnpm run compile && pnpm run lint",
+		"lint": "eslint src",
+		"test": "vscode-test",
+		"package": "pnpm vsce package --no-dependencies"
+	},
+	"devDependencies": {
+		"@types/mocha": "^10.0.8",
+		"@types/node": "20.x",
+		"@types/vscode": "^1.94.0",
+		"@typescript-eslint/eslint-plugin": "^8.7.0",
+		"@typescript-eslint/parser": "^8.7.0",
+		"@vscode/test-cli": "^0.0.10",
+		"@vscode/test-electron": "^2.4.1",
+		"@vscode/vsce": "^3.2.1",
+		"eslint": "^9.11.1",
+		"typescript": "^5.6.2"
+	}
+}
